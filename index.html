@@ -457,9 +457,9 @@
       <h1>Agent Operations</h1>
       <p class="dek">A four-tier curriculum for engineers moving from writing code to directing it — built by studying how the field's best-known tactical course teaches the shift, then designing an original one.</p>
       <dl class="docblock">
-        <div><dt>Rev</dt><dd>02</dd></div>
+        <div><dt>Rev</dt><dd>03</dd></div>
         <div><dt>Date</dt><dd>2026-07-16</dd></div>
-        <div><dt>Status</dt><dd>Lessons live</dd></div>
+        <div><dt>Status</dt><dd>Fact-checked</dd></div>
         <div><dt>Tiers</dt><dd>4 + capstone</dd></div>
       </dl>
     </div>
@@ -468,18 +468,18 @@
   <section>
     <p class="section-label">Research brief</p>
     <h2>What the reference course actually teaches</h2>
-    <p class="lede">Before designing anything, I looked at what IndyDevDan — an independent engineer-educator with 15+ years of production experience and a YouTube channel built around Claude Code and agentic workflows — actually ships in his paid curriculum, <em>Tactical Agentic Coding</em> (bundled with its prerequisite, <em>Principled AI Coding</em>).</p>
+    <p class="lede">Before designing anything, I looked at what IndyDevDan — an independent engineer-educator with 15+ years of production experience and a YouTube channel built around Claude Code and agentic workflows — actually ships across his two paid courses, <em>Principled AI Coding</em> (the prerequisite) and <em>Tactical Agentic Coding</em> (the advanced course it feeds into).</p>
     <div class="brief">
-      <h3>Findings, official source only</h3>
+      <h3>Findings, official source only — re-verified against the live pages</h3>
       <dl>
-        <dt>Shape</dt><dd>14 lessons total: an 8-lesson core progressing beginner → intermediate → advanced, plus a 6-lesson "Agentic Horizon" extension. ~12.5 hrs of video across both courses.</dd>
-        <dt>Core framework</dt><dd>"The Big Three" — Context, Prompt, Model — taught as the three levers that turn prompting from guesswork into precision.</dd>
-        <dt>Signature ideas</dt><dd>The 12 Leverage Points; AFK Agents (autonomous, not "in the loop"); Closed Loop Prompts (agents that validate their own output); Zero-Touch Engineering as the stated end-state; multi-agent orchestration via a single orchestrator.</dd>
-        <dt>Gate</dt><dd>Explicitly "not for beginners" — targets mid/senior engineers already shipping production code.</dd>
-        <dt>Philosophy</dt><dd>"Principles, not tools." Teach concepts that outlive whichever model or CLI is current.</dd>
+        <dt>Shape</dt><dd><em>Principled AI Coding</em>: 8 lessons, ~6 hrs. <em>Tactical Agentic Coding</em>: 14 lessons (an 8-lesson core + a 6-lesson "Agentic Horizon" extension), ~6.5 hrs. Combined: 22 lessons, ~12.5 hrs.</dd>
+        <dt>Core framework</dt><dd>Two frameworks, one lineage: <em>Principled AI Coding</em> teaches the <strong>"Big Three"</strong> — Context, Prompt, Model. <em>Tactical Agentic Coding</em> upgrades this to the <strong>"Core Four"</strong> by adding a fourth lever, Tools.</dd>
+        <dt>Signature ideas</dt><dd>The 12 Leverage Points; AFK Agents (via a "PITER" framework); Closed Loop Prompts (self-correcting agents with strategic feedback loops); ADWs — AI Developer Workflows (deterministic code composed with non-deterministic agents); "The Agentic Layer" ("the one meta-tactic to rule them all"); multi-agent orchestration via a dedicated Orchestrator Agent; Zero-Touch Engineering (ZTE) as the stated end-state, "where your codebase ships itself."</dd>
+        <dt>Gate</dt><dd>Explicitly built for "the top 20% of engineers" and "NOT for beginners" — required fluency includes Git, GitHub CLI, Node 18+, Python 3.10+, and existing test/build tooling.</dd>
+        <dt>Philosophy</dt><dd>Durable principles over any specific model, tool, or agent — "using the best tool for the job" rather than chasing whichever is newest.</dd>
       </dl>
     </div>
-    <p style="margin-top:16px">Everything above is publicly described on the creator's own site — I did not access, purchase, or reproduce any paid lesson content. Several search results were course-piracy resale sites; those are excluded on purpose.</p>
+    <p style="margin-top:16px">Everything above is publicly described on the creator's own site — I did not access, purchase, or reproduce any paid lesson content. Several search results were course-piracy resale sites; those are excluded on purpose. <strong>Revision note:</strong> an earlier draft of this brief mislabeled Tactical Agentic Coding's framework as "The Big Three" and undercounted the combined lesson total — both are corrected above after re-checking the source pages directly.</p>
   </section>
 
   <section>
@@ -498,6 +498,22 @@
       <div class="dial"><div class="letter">F</div><h4>Frame</h4><p>The spec you hand it: scope, done-criteria, and what's explicitly out of bounds.</p></div>
       <div class="dial"><div class="letter">F</div><h4>Fit</h4><p>Which model and which tools for this task — not the biggest, the right one.</p></div>
       <div class="dial"><div class="letter">C</div><h4>Check</h4><p>How the work is verified before a human ever looks at it — tests, lint, a second agent, a rubric.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label">Technical grounding</p>
+    <h2>Where the Four Dials come from in the literature</h2>
+    <p class="lede">The Four Dials are original to this curriculum, not IndyDevDan's terms — but they're not invented from nothing either. Each names something with prior art in agent research, added here from my own technical background rather than from the reference course.</p>
+    <div class="brief">
+      <h3>Grounding, by dial</h3>
+      <dl>
+        <dt>Feed</dt><dd>Relevant-information <em>placement</em>, not just presence, measurably changes model performance — accuracy drops when the needed fact sits in the middle of a long context instead of at the start or end. This is why file selection beats prompt length: it's a placement problem as much as a content one. <a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener">Liu et al., 2023 — "Lost in the Middle" (arXiv:2307.03172)</a>.</dd>
+        <dt>The loop itself (Tiers 0–1)</dt>
+        <dd>The plan → act → observe cycle this course assumes from the start is the same loop formalized as interleaving reasoning traces with actions and tool observations, letting the agent correct course mid-task instead of committing to a single plan upfront. <a href="https://arxiv.org/abs/2210.03629" target="_blank" rel="noopener">Yao et al., 2022 — "ReAct: Synergizing Reasoning and Acting in Language Models" (arXiv:2210.03629)</a>.</dd>
+        <dt>Check + Tier 3 orchestration</dt><dd>The self-check loop in Module 2.3 and the fan-out/fan-in pattern in Module 3.3 correspond to named patterns in Anthropic's own applied engineering guidance — "evaluator-optimizer" and "orchestrator-workers" — from a write-up on which agent patterns hold up in production versus which just look good in a demo. <a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener">Anthropic, 2024 — "Building Effective Agents"</a>.</dd>
+        <dt>Frame and Fit</dt><dd>No single paper anchors these two — they're closer to existing software-engineering discipline (testable specs, cost-aware tool selection) applied to agent delegation, not a novel research claim. Flagged here rather than papering over the gap with a citation that doesn't quite fit.</dd>
+      </dl>
     </div>
   </section>
 

@@ -1,4 +1,4 @@
-const CACHE = 'agent-ops-v2';
+const CACHE = 'agent-ops-v3';
 const PRECACHE = [
   './',
   './index.html',
