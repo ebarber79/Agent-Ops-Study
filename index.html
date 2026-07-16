@@ -282,6 +282,46 @@
   }
   .mod-check b { color: var(--ink); font-weight: 600; }
 
+  /* ---------- lesson content ---------- */
+  .lesson {
+    margin: 4px 0 12px;
+    max-width: 62ch;
+  }
+  .lesson summary {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--accent);
+    cursor: pointer;
+    padding: 4px 0;
+    list-style: none;
+  }
+  .lesson summary::-webkit-details-marker { display: none; }
+  .lesson summary::before { content: "▸ "; }
+  .lesson[open] summary::before { content: "▾ "; }
+  .lesson-body {
+    padding: 4px 0 4px 2px;
+  }
+  .lesson-body p { font-size: 15px; margin: 0 0 12px; max-width: 60ch; white-space: pre-line; }
+  .lesson-body ol, .lesson-body ul { padding-left: 1.3em; margin: 0 0 12px; max-width: 60ch; }
+  .lesson-body li { margin-bottom: 8px; font-size: 15px; }
+  .try-it {
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    padding: 12px 14px;
+    margin: 4px 0 4px;
+  }
+  .try-it .try-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 6px;
+  }
+  .try-it p { margin: 0; font-size: 14.5px; max-width: none; }
+
   /* ---------- module done-state (local, offline) ---------- */
   .module { position: relative; }
   .mod-done-toggle {
@@ -417,9 +457,9 @@
       <h1>Agent Operations</h1>
       <p class="dek">A four-tier curriculum for engineers moving from writing code to directing it — built by studying how the field's best-known tactical course teaches the shift, then designing an original one.</p>
       <dl class="docblock">
-        <div><dt>Rev</dt><dd>01</dd></div>
+        <div><dt>Rev</dt><dd>02</dd></div>
         <div><dt>Date</dt><dd>2026-07-16</dd></div>
-        <div><dt>Status</dt><dd>Draft</dd></div>
+        <div><dt>Status</dt><dd>Lessons live</dd></div>
         <div><dt>Tiers</dt><dd>4 + capstone</dd></div>
       </dl>
     </div>
@@ -481,6 +521,17 @@
           <p class="mod-title">You Are No Longer the Typist</p>
           <p class="mod-meta">Lecture · 25 min</p>
           <div class="mod-body"><p>Reframes the job: from producing code to producing the conditions under which an agent produces correct code. Covers why "just prompt better" plateaus, and what replaces it.</p></div>
+          <details class="lesson">
+            <summary>Read the lesson</summary>
+            <div class="lesson-body">
+              <p>For most of software history, your value was measured in code you produced: lines shipped, tickets closed, PRs merged. That's ending — not because code stops mattering, but because you stop being the one who types it.
+
+Your value moves upstream, into four decisions that determine whether an agent's code is any good. This course calls them the Four Dials: what the agent can see (Feed), what you've told it to do and when to stop (Frame), which model and tools you handed it (Fit), and how the work gets checked before you look at it (Check). An agent that fails is failing because exactly one of these is wrong — never because it's "not smart enough." Diagnosing which dial is off is the entire skill.
+
+The trap: "just prompt better" plateaus fast, because a better sentence can't fix a starved context window, an ambiguous done-criterion, the wrong model for the job, or a missing verification step. Those are structural problems, not verbal ones.</p>
+            </div>
+          </details>
+          <div class="try-it"><p class="try-label">Try it</p><p>Pull up your last five completed tickets. For each one, write one line: was the hard part typing the solution, or deciding what "correct" meant? If more than half were typing, you're still doing the job the old way.</p></div>
           <p class="mod-check"><b>Done when:</b> you can name, for your last week of work, which parts were typing and which were judgment.</p>
           <button class="mod-done-toggle" data-toggle>Mark done</button>
         </div>
@@ -497,6 +548,23 @@
           <p class="mod-title">First Real Task, End to End</p>
           <p class="mod-meta">Lab · 45 min</p>
           <div class="mod-body"><p>Take one real (not toy) ticket from your own backlog through an agent from spec to merged diff, narrating every decision point out loud.</p></div>
+          <details class="lesson">
+            <summary>Read the lesson</summary>
+            <div class="lesson-body">
+              <p>Pick one ticket from your actual backlog — not a toy. Hand it to an agent as a real task: give it the ticket text, point it at the relevant files, and let it work through spec, implementation, and self-check without you typing any code yourself. Your job for this lab is narration, not intervention: at every point where you're tempted to jump in, stop and write down what you were about to do and why.</p>
+              <p><strong>Worked example — a real correction log</strong>, from a raspberry-pi virus-scan script that needed a check for an overlapping backup job:</p>
+              <ol>
+                <li>Wrote the conditional (<code>flock -n -x ... || echo HELD</code>) — <strong>typing</strong>.</li>
+                <li>Decided the check must run before the scan, not after — <strong>judgment</strong> (changes what the check is even for).</li>
+                <li>Chose a non-blocking lock probe over inspecting the backup process directly — <strong>judgment</strong> (the wrong tool here could hang the scan).</li>
+                <li>Tested the logic against both a free and a held lock before touching the real script — <strong>judgment</strong> (proof before production).</li>
+                <li>Backed up the original script and diffed before/after installing — <strong>judgment</strong> (reversibility).</li>
+                <li>Decided to surface the note in the existing log field rather than add a new one — <strong>judgment</strong> (schema stability over completeness).</li>
+              </ol>
+              <p>Six moves, one of them typing. That ratio is what you're measuring.</p>
+            </div>
+          </details>
+          <div class="try-it"><p class="try-label">Try it</p><p>Run the exercise. When you're done, count your own moves the same way — typing vs. judgment — and keep the log. You'll use it again in Tier 3.</p></div>
           <p class="mod-check"><b>Artifact:</b> a merged PR plus a one-page log of every correction you made and why.</p>
           <button class="mod-done-toggle" data-toggle>Mark done</button>
         </div>
@@ -507,6 +575,15 @@
           <p class="mod-title">Feed and Frame</p>
           <p class="mod-meta">Lecture + Lab · 60 min</p>
           <div class="mod-body"><p>The first two dials in depth: what context actually moves the needle (file selection beats prompt length), and how to write a frame with unambiguous done-criteria.</p></div>
+          <details class="lesson">
+            <summary>Read the lesson</summary>
+            <div class="lesson-body">
+              <p><strong>Feed</strong> is what the agent can actually see: the files you pointed it at, the docs it can reach, the constraints you stated out loud. Most agent failures that look like "it's not smart enough" are actually starvation — the answer was in a file three directories over that nobody mentioned. File selection beats prompt length; a precise pointer to the right 200 lines outperforms a paragraph of context about the whole system.</p>
+              <p><strong>Frame</strong> is the spec you hand it: scope (what's in, what's explicitly out), and done-criteria specific enough that two different people would agree on whether it's met. "Make the tests pass" is a frame. "Make it better" is not — there's no way to fail at "better," which means there's no way to check it either.</p>
+              <p>A usable frame template has three lines: (1) the one thing that must be true when this is done, (2) the files or systems this may NOT touch, (3) how you'll verify it without re-reading the whole diff yourself.</p>
+            </div>
+          </details>
+          <div class="try-it"><p class="try-label">Try it</p><p>Write that three-line frame for a task you're about to hand off — before you hand it off, not after. Save the template; Tier 2 builds directly on it.</p></div>
           <p class="mod-check"><b>Artifact:</b> a reusable task-frame template you'll use for the rest of the course.</p>
           <button class="mod-done-toggle" data-toggle>Mark done</button>
         </div>
@@ -517,6 +594,21 @@
           <p class="mod-title">Reading a Failure</p>
           <p class="mod-meta">Lab · 40 min</p>
           <div class="mod-body"><p>A catalog of the five ways agent output fails silently — confident wrong answers, scope creep, invisible assumptions, stale context, and over-eager cleanup — with a diagnostic pass for each.</p></div>
+          <details class="lesson">
+            <summary>Read the lesson</summary>
+            <div class="lesson-body">
+              <p>Five ways agent output fails silently, in the order you'll meet them:</p>
+              <ol>
+                <li><strong>Confident wrong answer</strong> — states something false with the same tone as something true. No hedge to catch.</li>
+                <li><strong>Scope creep</strong> — solves the ticket plus three adjacent things nobody asked for, burying the actual fix in unrelated churn.</li>
+                <li><strong>Invisible assumption</strong> — picks a default (a timezone, a null-handling rule, an API version) and never says so.</li>
+                <li><strong>Stale context</strong> — reasons from a file version, a schema, or a conversation state that's since changed.</li>
+                <li><strong>Over-eager cleanup</strong> — "while I was in there" edits: renamed variables, reformatted files, removed "unused" code that wasn't unused.</li>
+              </ol>
+              <p>Each has a fast tell. Confident-wrong: cross-check the one claim that would be expensive if false. Scope creep: diff the file list against the frame's "must not touch" line. Invisible assumption: grep the diff for any literal that isn't in the spec (a date, a magic number, a hardcoded string). Stale context: check the timestamp of the last file read against the timestamp of the last relevant edit. Over-eager cleanup: read the diff stat before the diff — a 40-line fix with a 400-line diff is the tell by itself.</p>
+            </div>
+          </details>
+          <div class="try-it"><p class="try-label">Try it</p><p>Take a diff you didn't review carefully at the time — yours or a teammate's. Name which of the five it is, in under a minute, before reading further into it.</p></div>
           <p class="mod-check"><b>Done when:</b> given a broken diff you've never seen, you can name which of the five it is in under a minute.</p>
           <button class="mod-done-toggle" data-toggle>Mark done</button>
         </div>
@@ -533,6 +625,14 @@
           <p class="mod-title">Spec Before Code</p>
           <p class="mod-meta">Lecture + Lab · 50 min</p>
           <div class="mod-body"><p>Writing a spec the agent can be graded against — testable invariants, not vibes — and using it as the frame for a multi-file change.</p></div>
+          <details class="lesson">
+            <summary>Read the lesson</summary>
+            <div class="lesson-body">
+              <p>A spec the agent can be graded against reads like a test file in prose: a numbered list of invariants, each one a statement that's either true or false of the finished code — never a vibe. "Handles errors gracefully" is not an invariant. "Returns a 422 with a field-level message when the payload is missing a required key" is.</p>
+              <p>Write the spec before any code exists, covering the obvious path plus at least three non-obvious edge cases (the empty case, the concurrent case, and the malformed-input case are a reliable starting three). Hand the spec to the agent as the Frame, and hold the finished implementation against it line by line — an invariant either has code that satisfies it or it doesn't; there's no partial credit to negotiate.</p>
+            </div>
+          </details>
+          <div class="try-it"><p class="try-label">Try it</p><p>Write a spec with 3+ non-obvious edge cases for a real feature, then implement against it. Check the implementation against the spec yourself before you check it against anything else.</p></div>
           <p class="mod-check"><b>Artifact:</b> a spec + implementation for a feature with 3+ non-obvious edge cases.</p>
           <button class="mod-done-toggle" data-toggle>Mark done</button>
         </div>
@@ -543,6 +643,14 @@
           <p class="mod-title">The Fit Dial</p>
           <p class="mod-meta">Lecture · 35 min</p>
           <div class="mod-body"><p>Model and tool selection as a real engineering decision: cost, latency, and failure-mode tradeoffs across a cheap/fast model, a strong reasoner, and a specialized tool call.</p></div>
+          <details class="lesson">
+            <summary>Read the lesson</summary>
+            <div class="lesson-body">
+              <p>Fit is model and tool selection, and it's a real engineering tradeoff, not a default you leave on autopilot. Three tiers to reason about: a cheap/fast model for high-volume, low-stakes, well-specified work (formatting, simple lookups, mechanical edits); a strong reasoner for ambiguous, high-stakes, or architecturally consequential work (anything where a wrong call is expensive to unwind); a specialized tool call for anything with a deterministic right answer (arithmetic, a linter, a compiler, a search index) — never make a model "reason" its way to something a tool computes exactly.</p>
+              <p>The failure mode in both directions is expensive: an overpowered model on trivial work burns latency and cost for no quality gain; an underpowered model on ambiguous work produces confident mistakes (see Module 1.3) that cost more to catch than the cheap run saved.</p>
+            </div>
+          </details>
+          <div class="try-it"><p class="try-label">Try it</p><p>For your next five tasks, before starting each one, say out loud which tier it is and why. If you can't justify it in one sentence, that's the tell you defaulted instead of deciding.</p></div>
           <p class="mod-check"><b>Done when:</b> you can justify, in one sentence, why a task got the model it got.</p>
           <button class="mod-done-toggle" data-toggle>Mark done</button>
         </div>
@@ -553,6 +661,14 @@
           <p class="mod-title">Closing the Loop</p>
           <p class="mod-meta">Lab · 55 min</p>
           <div class="mod-body"><p>Wiring the Check dial into the workflow itself: tests-first hand-off, an agent that runs its own lint/typecheck/test cycle, and a second agent that reviews the first's diff before you do.</p></div>
+          <details class="lesson">
+            <summary>Read the lesson</summary>
+            <div class="lesson-body">
+              <p>Check is the dial most people skip because it looks like extra work — until you count the time spent manually re-verifying agent output by hand, every single time. Closing the loop means the verification is wired into the task itself, not bolted on after: a tests-first hand-off (the agent gets the spec's tests before it writes the implementation, so it has something to run against, not just something to satisfy from description), the agent running its own lint/typecheck/test cycle before it hands the diff back to you, and — where the stakes justify it — a second agent reviewing the first's diff against the spec before you ever open it.</p>
+              <p>The bar for this module: a task completes with zero manual test-running on your part. Not zero verification — zero <em>manual</em> verification. The checking still happens; it just doesn't require your hands.</p>
+            </div>
+          </details>
+          <div class="try-it"><p class="try-label">Try it</p><p>Take a task you'd normally verify by hand and wire the check into the handoff instead — tests the agent runs itself, or a second agent reviewing against the spec. Confirm the check actually caught something once, even a small thing, before you trust the pattern.</p></div>
           <p class="mod-check"><b>Artifact:</b> a task that completes with zero manual test-running on your part.</p>
           <button class="mod-done-toggle" data-toggle>Mark done</button>
         </div>
@@ -569,6 +685,14 @@
           <p class="mod-title">Encode, Don't Repeat</p>
           <p class="mod-meta">Lab · 45 min</p>
           <div class="mod-body"><p>Turning the corrections you've been making by hand since Tier 1 into a standing artifact — a house style doc, a reusable reviewer persona, a lint rule — so the agent stops making the same mistake.</p></div>
+          <details class="lesson">
+            <summary>Read the lesson</summary>
+            <div class="lesson-body">
+              <p>By Tier 3 you've made the same correction more than once — a formatting preference, a "don't do X, we tried it and Y happened" rule, a house style for error messages. Each repeat is a signal that the correction belongs in a standing artifact instead of your head: a style doc the agent reads before it starts, a reusable reviewer persona that checks for exactly that class of mistake, a lint rule that fails the build before a human ever sees the diff.</p>
+              <p>The test for whether something's worth encoding: would you make this same correction on the next five similar tasks if you didn't write it down? If yes, write it down once, in the place the agent actually reads, and stop making it by hand.</p>
+            </div>
+          </details>
+          <div class="try-it"><p class="try-label">Try it</p><p>Pick one correction you've made at least twice. Encode it as a standing artifact, then run the next task through the same context and check whether the correction rate actually dropped.</p></div>
           <p class="mod-check"><b>Artifact:</b> one encoded standard that measurably reduces your correction rate on the next 5 tasks.</p>
           <button class="mod-done-toggle" data-toggle>Mark done</button>
         </div>
@@ -579,6 +703,14 @@
           <p class="mod-title">Working Without a Babysitter</p>
           <p class="mod-meta">Lecture + Lab · 60 min</p>
           <div class="mod-body"><p>Designing a task an agent can run unattended: checkpoints instead of continuous supervision, a rollback path, and a hard stop condition it can't talk itself past.</p></div>
+          <details class="lesson">
+            <summary>Read the lesson</summary>
+            <div class="lesson-body">
+              <p>An unattended run needs three things a supervised one doesn't: checkpoints instead of continuous watching (specific points where you review a summary of what happened, not a live transcript), a rollback path that's cheap to execute and doesn't depend on you remembering the pre-run state, and a hard stop condition the agent can't reason its way past — a budget, a file-count limit, an explicit list of paths it may never touch, enforced structurally rather than requested politely.</p>
+              <p>Design the stop condition first. If the only thing preventing a runaway is "the agent probably won't," it's not a hard stop — it's a hope.</p>
+            </div>
+          </details>
+          <div class="try-it"><p class="try-label">Try it</p><p>Design and run one task unattended: a checkpoint log, a tested rollback, and a stop condition you verify actually triggers (deliberately trip it once on a throwaway case) before you trust it on something real.</p></div>
           <p class="mod-check"><b>Artifact:</b> an unattended run with a checkpoint log you review after the fact, not during.</p>
           <button class="mod-done-toggle" data-toggle>Mark done</button>
         </div>
@@ -589,6 +721,14 @@
           <p class="mod-title">One Operator, Several Agents</p>
           <p class="mod-meta">Lab · 60 min</p>
           <div class="mod-body"><p>Splitting a task across specialist agents (a finder, an implementer, a reviewer) under one orchestrator, and reading a fan-out/fan-in result without reading every sub-agent's transcript.</p></div>
+          <details class="lesson">
+            <summary>Read the lesson</summary>
+            <div class="lesson-body">
+              <p>Split a task too broad for one agent's context across specialists under one orchestrator — a finder that locates the relevant code, an implementer that changes it, a reviewer that checks the diff against the spec — and practice reading the fan-out/fan-in result at the level of the orchestrator's summary, not by opening every sub-agent's transcript.</p>
+              <p>The skill here isn't delegation — you've been doing that since Tier 1. It's trusting a synthesis enough to act on it, while still knowing which claims in that synthesis you'd actually verify if something looked off. Total trust and zero trust are both wrong; the operator's job is knowing where the line is for this specific task.</p>
+            </div>
+          </details>
+          <div class="try-it"><p class="try-label">Try it</p><p>Run a 3+ agent pipeline on something genuinely too broad for one context. Before opening any sub-agent transcript, decide from the orchestrator's summary alone whether you trust the result — then spot-check exactly one claim to see if you were right to.</p></div>
           <p class="mod-check"><b>Artifact:</b> a 3+ agent pipeline on a task too broad for one agent to hold in context.</p>
           <button class="mod-done-toggle" data-toggle>Mark done</button>
         </div>
@@ -599,6 +739,14 @@
           <p class="mod-title">Measuring the Operator, Not the Agent</p>
           <p class="mod-meta">Lecture · 30 min</p>
           <div class="mod-body"><p>The four numbers that tell you whether delegation is actually working, and why "lines of code shipped" isn't one of them.</p></div>
+          <details class="lesson">
+            <summary>Read the lesson</summary>
+            <div class="lesson-body">
+              <p>Four numbers tell you whether delegation is actually working — the same four the capstone rubric below grades on: human touches per cycle (how many times you had to step in), defects reaching review (mistakes that got past the agent's own checks), time from trigger to reviewable output, and whether a rollback path has ever actually been exercised, not just designed.</p>
+              <p>"Lines of code shipped" isn't one of them, on purpose — it measures the agent's output, not your operation of it. An operator whose touches-per-cycle keeps dropping while defect rate stays at zero is improving, regardless of how much code moved. One whose touches keep climbing is drifting back toward Tier 1 no matter how sophisticated the pipeline looks.</p>
+            </div>
+          </details>
+          <div class="try-it"><p class="try-label">Try it</p><p>Pull your own numbers for the four metrics from your last two weeks of real work — not a class exercise, the actual job. That's your baseline; the capstone below is graded against improving it.</p></div>
           <p class="mod-check"><b>Done when:</b> you have a personal baseline for all four, from your own last two weeks of work.</p>
           <button class="mod-done-toggle" data-toggle>Mark done</button>
         </div>
