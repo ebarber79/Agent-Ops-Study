@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Agent Operations — A Practical Curriculum</title>
+<meta name="description" content="A four-tier curriculum for engineers moving from writing code to directing it.">
+<meta name="theme-color" content="#a8480f">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Agent Ops">
+<style>
+  :root {
+    --paper: #eef1ec;
+    --paper-raised: #e4e8e1;
+    --ink: #1a2018;
+    --ink-soft: #4b564a;
+    --rule: #c7d0c2;
+    --rule-strong: #a9b5a3;
+    --accent: #a8480f;
+    --accent-soft: #a8480f1a;
+    --accent-ink: #ffffff;
+    --tier0: #5c6b57;
+    --tier1: #3d6b6f;
+    --tier2: #6f5a3d;
+    --tier3: #a8480f;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, "Roboto Mono", "Liberation Mono", monospace;
+    --serif: Charter, "Iowan Old Style", "Palatino Linotype", "Noto Serif", Georgia, serif;
+  }
+  :root[data-theme="dark"] {
+    --paper: #14181a;
+    --paper-raised: #191f20;
+    --ink: #e7ece6;
+    --ink-soft: #a7b3a4;
+    --rule: #2b3330;
+    --rule-strong: #3c463f;
+    --accent: #e08a3c;
+    --accent-soft: #e08a3c22;
+    --accent-ink: #14181a;
+    --tier0: #93a58d;
+    --tier1: #7fb3b7;
+    --tier2: #c7a877;
+    --tier3: #e08a3c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #14181a;
+      --paper-raised: #191f20;
+      --ink: #e7ece6;
+      --ink-soft: #a7b3a4;
+      --rule: #2b3330;
+      --rule-strong: #3c463f;
+      --accent: #e08a3c;
+      --accent-soft: #e08a3c22;
+      --accent-ink: #14181a;
+      --tier0: #93a58d;
+      --tier1: #7fb3b7;
+      --tier2: #c7a877;
+      --tier3: #e08a3c;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+  }
+  body {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .sheet {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px 96px;
+  }
+
+  /* ---------- Title block (engineering-drawing corner block) ---------- */
+  .masthead {
+    margin-top: 40px;
+    background:
+      repeating-linear-gradient(0deg, var(--rule) 0 1px, transparent 1px 28px),
+      repeating-linear-gradient(90deg, var(--rule) 0 1px, transparent 1px 28px);
+    background-size: 100% 28px, 28px 100%;
+    opacity: 1;
+    border: 1px solid var(--rule-strong);
+    padding: 28px 28px 0;
+  }
+  .masthead-inner { background: var(--paper); padding: 4px 0 24px; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 14px;
+  }
+  h1 {
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: clamp(28px, 4.4vw, 40px);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin: 0 0 12px;
+    text-wrap: balance;
+    color: var(--ink);
+  }
+  .dek {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 19px;
+    color: var(--ink-soft);
+    margin: 0 0 22px;
+    max-width: 52ch;
+  }
+  .docblock {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    gap: 2px;
+    border-top: 1px solid var(--rule-strong);
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+  .docblock div { padding: 10px 14px 10px 0; }
+  .docblock dt {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+    font-size: 10.5px;
+    margin: 0 0 3px;
+  }
+  .docblock dd { margin: 0; font-variant-numeric: tabular-nums; }
+
+  /* ---------- generic section rhythm ---------- */
+  section { margin-top: 56px; }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .section-label::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid var(--rule);
+    transform: translateY(-4px);
+  }
+  h2 {
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: 22px;
+    margin: 0 0 16px;
+    text-wrap: balance;
+  }
+  p { margin: 0 0 14px; max-width: 66ch; }
+  .lede { font-size: 18px; color: var(--ink-soft); }
+  ul.plain { margin: 0 0 14px; padding-left: 1.2em; max-width: 66ch; }
+  ul.plain li { margin-bottom: 6px; }
+  strong { color: var(--ink); }
+  code {
+    font-family: var(--mono);
+    font-size: 0.88em;
+    background: var(--paper-raised);
+    padding: 0.1em 0.4em;
+    border-radius: 3px;
+  }
+
+  /* ---------- research brief callout ---------- */
+  .brief {
+    border: 1px solid var(--rule-strong);
+    background: var(--paper-raised);
+    padding: 20px 22px;
+  }
+  .brief h3 {
+    font-family: var(--mono);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0 0 10px;
+    color: var(--ink-soft);
+  }
+  .brief dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 6px 18px;
+    margin: 0;
+    font-size: 15.5px;
+  }
+  .brief dt { font-family: var(--mono); font-size: 12.5px; color: var(--ink-soft); white-space: nowrap; padding-top: 2px; }
+  .brief dd { margin: 0; }
+
+  /* ---------- the four dials ---------- */
+  .dials {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1px;
+    background: var(--rule-strong);
+    border: 1px solid var(--rule-strong);
+    margin: 20px 0 8px;
+  }
+  .dial {
+    background: var(--paper);
+    padding: 18px 16px;
+  }
+  .dial .letter {
+    font-family: var(--mono);
+    font-size: 28px;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .dial h4 { margin: 0 0 6px; font-size: 15.5px; font-family: var(--serif); font-weight: 700; }
+  .dial p { margin: 0; font-size: 14px; color: var(--ink-soft); max-width: none; }
+
+  /* ---------- tiers & modules ---------- */
+  .tier {
+    margin-top: 40px;
+    border-left: 3px solid var(--tier-color, var(--rule-strong));
+    padding-left: 20px;
+  }
+  .tier-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 4px; flex-wrap: wrap; }
+  .tier-tag {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--tier-color, var(--ink-soft));
+    background: color-mix(in srgb, var(--tier-color, var(--ink-soft)) 14%, transparent);
+    padding: 2px 8px;
+    border-radius: 2px;
+  }
+  .tier-head h3 { font-family: var(--mono); font-size: 19px; margin: 0; font-weight: 500; }
+  .tier-sub { color: var(--ink-soft); font-size: 15px; margin: 6px 0 20px; max-width: 62ch; }
+
+  .module {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 4px 18px;
+    padding: 16px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .module:first-of-type { border-top: 1px solid var(--rule-strong); }
+  .mod-num {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--tier-color, var(--ink-soft));
+    padding-top: 2px;
+  }
+  .mod-title { font-weight: 700; font-size: 16px; margin: 0 0 4px; }
+  .mod-meta {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    margin: 0 0 8px;
+  }
+  .mod-body p { font-size: 15px; margin: 0 0 8px; max-width: 60ch; }
+  .mod-check {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin: 0;
+    padding-top: 4px;
+    border-top: 1px dashed var(--rule);
+    display: inline-block;
+    max-width: 60ch;
+  }
+  .mod-check b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- module done-state (local, offline) ---------- */
+  .module { position: relative; }
+  .mod-done-toggle {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    background: var(--paper-raised);
+    border: 1px solid var(--rule-strong);
+    border-radius: 3px;
+    padding: 4px 9px;
+    cursor: pointer;
+    margin-top: 6px;
+  }
+  .module.is-done .mod-done-toggle {
+    color: var(--accent-ink);
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .module.is-done .mod-title { color: var(--ink-soft); text-decoration: line-through; text-decoration-color: var(--rule-strong); }
+
+  /* ---------- capstone ---------- */
+  .capstone {
+    margin-top: 40px;
+    border: 1px solid var(--tier3);
+    padding: 24px 24px 22px;
+    position: relative;
+  }
+  .capstone::before {
+    content: "CAPSTONE";
+    position: absolute;
+    top: -11px;
+    left: 20px;
+    background: var(--paper);
+    padding: 0 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--tier3);
+  }
+  .capstone h3 { font-family: var(--mono); font-size: 19px; margin: 6px 0 12px; font-weight: 500; }
+
+  /* ---------- rubric table ---------- */
+  .table-wrap { overflow-x: auto; margin: 8px 0 4px; }
+  table { border-collapse: collapse; width: 100%; min-width: 480px; font-size: 14.5px; }
+  th, td { text-align: left; padding: 9px 14px 9px 0; border-bottom: 1px solid var(--rule); }
+  th { font-family: var(--mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-soft); font-weight: 500; }
+  td.num { font-variant-numeric: tabular-nums; font-family: var(--mono); font-size: 13.5px; }
+
+  /* ---------- sources ---------- */
+  .sources { font-size: 14px; }
+  .sources ol { padding-left: 1.3em; margin: 0; }
+  .sources li { margin-bottom: 6px; }
+
+  /* ---------- progress bar (sticky, offline-tracked) ---------- */
+  .progress-bar {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-soft);
+  }
+  .progress-track {
+    flex: 1;
+    height: 5px;
+    background: var(--rule);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width .3s ease;
+  }
+  .offline-pill {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 3px;
+    border: 1px solid var(--rule-strong);
+    color: var(--ink-soft);
+  }
+  .offline-pill.is-offline { color: var(--accent); border-color: var(--accent); }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-soft);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 520px) {
+    .module { grid-template-columns: 1fr; }
+    .mod-num { padding-top: 0; }
+    .docblock { grid-template-columns: repeat(2, auto); }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .brief, .module, .dial { transition: background-color .2s ease; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar">
+  <span id="progress-label">0 / 11 modules</span>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+  <span class="offline-pill" id="offline-pill">online</span>
+</div>
+
+<div class="sheet">
+
+  <div class="masthead">
+    <div class="masthead-inner">
+      <p class="eyebrow">Curriculum design brief · Agentic engineering</p>
+      <h1>Agent Operations</h1>
+      <p class="dek">A four-tier curriculum for engineers moving from writing code to directing it — built by studying how the field's best-known tactical course teaches the shift, then designing an original one.</p>
+      <dl class="docblock">
+        <div><dt>Rev</dt><dd>01</dd></div>
+        <div><dt>Date</dt><dd>2026-07-16</dd></div>
+        <div><dt>Status</dt><dd>Draft</dd></div>
+        <div><dt>Tiers</dt><dd>4 + capstone</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <section>
+    <p class="section-label">Research brief</p>
+    <h2>What the reference course actually teaches</h2>
+    <p class="lede">Before designing anything, I looked at what IndyDevDan — an independent engineer-educator with 15+ years of production experience and a YouTube channel built around Claude Code and agentic workflows — actually ships in his paid curriculum, <em>Tactical Agentic Coding</em> (bundled with its prerequisite, <em>Principled AI Coding</em>).</p>
+    <div class="brief">
+      <h3>Findings, official source only</h3>
+      <dl>
+        <dt>Shape</dt><dd>14 lessons total: an 8-lesson core progressing beginner → intermediate → advanced, plus a 6-lesson "Agentic Horizon" extension. ~12.5 hrs of video across both courses.</dd>
+        <dt>Core framework</dt><dd>"The Big Three" — Context, Prompt, Model — taught as the three levers that turn prompting from guesswork into precision.</dd>
+        <dt>Signature ideas</dt><dd>The 12 Leverage Points; AFK Agents (autonomous, not "in the loop"); Closed Loop Prompts (agents that validate their own output); Zero-Touch Engineering as the stated end-state; multi-agent orchestration via a single orchestrator.</dd>
+        <dt>Gate</dt><dd>Explicitly "not for beginners" — targets mid/senior engineers already shipping production code.</dd>
+        <dt>Philosophy</dt><dd>"Principles, not tools." Teach concepts that outlive whichever model or CLI is current.</dd>
+      </dl>
+    </div>
+    <p style="margin-top:16px">Everything above is publicly described on the creator's own site — I did not access, purchase, or reproduce any paid lesson content. Several search results were course-piracy resale sites; those are excluded on purpose.</p>
+  </section>
+
+  <section>
+    <p class="section-label">Design rationale</p>
+    <h2>What's borrowed, what's original</h2>
+    <p>The reference course's <strong>pedagogical shape</strong> is worth keeping: a hard skill gate, a small set of named principles taught before any tool, a progression from concrete to autonomous, and a capstone that has to run on real code, not a toy. That shape is sound regardless of who teaches it.</p>
+    <p>What follows below does <strong>not</strong> reuse his proprietary terms or lesson content. It's a separate curriculum, "Agent Operations," with its own framework and module set, aimed at the same transition — engineer to agent operator — built from first principles rather than from his course transcript.</p>
+  </section>
+
+  <section>
+    <p class="section-label">Core framework</p>
+    <h2>The Four Dials</h2>
+    <p class="lede">Every lesson in this curriculum comes back to one of four things an operator adjusts. Nothing else is tunable — an agent that's failing is failing because one of these four is wrong.</p>
+    <div class="dials">
+      <div class="dial"><div class="letter">F</div><h4>Feed</h4><p>What the agent can see: files, docs, prior runs, constraints. Most failures are starvation, not stupidity.</p></div>
+      <div class="dial"><div class="letter">F</div><h4>Frame</h4><p>The spec you hand it: scope, done-criteria, and what's explicitly out of bounds.</p></div>
+      <div class="dial"><div class="letter">F</div><h4>Fit</h4><p>Which model and which tools for this task — not the biggest, the right one.</p></div>
+      <div class="dial"><div class="letter">C</div><h4>Check</h4><p>How the work is verified before a human ever looks at it — tests, lint, a second agent, a rubric.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label">Entry gate</p>
+    <h2>Who this is for</h2>
+    <p>Same bar as the reference course, for the same reason: teaching delegation to someone who can't yet do the work themselves produces engineers who trust agents they can't evaluate. Prerequisites: 2+ years shipping production code, comfortable in a shell, has used <em>any</em> AI coding tool at least casually, owns a real codebase (personal or work) to run the capstone against.</p>
+  </section>
+
+  <section>
+    <p class="section-label">Curriculum</p>
+    <h2>Four tiers, eleven modules</h2>
+
+    <div class="tier" style="--tier-color: var(--tier0)">
+      <div class="tier-head"><span class="tier-tag">Tier 0</span><h3>Orientation</h3></div>
+      <p class="tier-sub">One module. The mindset shift, before any tooling — most people skip this and pay for it in Tier 2.</p>
+
+      <div class="module" data-mod="0.1">
+        <div class="mod-num">0.1</div>
+        <div>
+          <p class="mod-title">You Are No Longer the Typist</p>
+          <p class="mod-meta">Lecture · 25 min</p>
+          <div class="mod-body"><p>Reframes the job: from producing code to producing the conditions under which an agent produces correct code. Covers why "just prompt better" plateaus, and what replaces it.</p></div>
+          <p class="mod-check"><b>Done when:</b> you can name, for your last week of work, which parts were typing and which were judgment.</p>
+          <button class="mod-done-toggle" data-toggle>Mark done</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tier" style="--tier-color: var(--tier1)">
+      <div class="tier-head"><span class="tier-tag">Tier 1 · Foundations</span><h3>Running One Agent Well</h3></div>
+      <p class="tier-sub">Concrete, hands-on, single agent, full supervision. Every lesson ships a working artifact.</p>
+
+      <div class="module" data-mod="1.1">
+        <div class="mod-num">1.1</div>
+        <div>
+          <p class="mod-title">First Real Task, End to End</p>
+          <p class="mod-meta">Lab · 45 min</p>
+          <div class="mod-body"><p>Take one real (not toy) ticket from your own backlog through an agent from spec to merged diff, narrating every decision point out loud.</p></div>
+          <p class="mod-check"><b>Artifact:</b> a merged PR plus a one-page log of every correction you made and why.</p>
+          <button class="mod-done-toggle" data-toggle>Mark done</button>
+        </div>
+      </div>
+      <div class="module" data-mod="1.2">
+        <div class="mod-num">1.2</div>
+        <div>
+          <p class="mod-title">Feed and Frame</p>
+          <p class="mod-meta">Lecture + Lab · 60 min</p>
+          <div class="mod-body"><p>The first two dials in depth: what context actually moves the needle (file selection beats prompt length), and how to write a frame with unambiguous done-criteria.</p></div>
+          <p class="mod-check"><b>Artifact:</b> a reusable task-frame template you'll use for the rest of the course.</p>
+          <button class="mod-done-toggle" data-toggle>Mark done</button>
+        </div>
+      </div>
+      <div class="module" data-mod="1.3">
+        <div class="mod-num">1.3</div>
+        <div>
+          <p class="mod-title">Reading a Failure</p>
+          <p class="mod-meta">Lab · 40 min</p>
+          <div class="mod-body"><p>A catalog of the five ways agent output fails silently — confident wrong answers, scope creep, invisible assumptions, stale context, and over-eager cleanup — with a diagnostic pass for each.</p></div>
+          <p class="mod-check"><b>Done when:</b> given a broken diff you've never seen, you can name which of the five it is in under a minute.</p>
+          <button class="mod-done-toggle" data-toggle>Mark done</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tier" style="--tier-color: var(--tier2)">
+      <div class="tier-head"><span class="tier-tag">Tier 2 · Practice</span><h3>Making the Agent Check Itself</h3></div>
+      <p class="tier-sub">Specs, verification loops, and tool access — the agent starts doing more without you watching every step.</p>
+
+      <div class="module" data-mod="2.1">
+        <div class="mod-num">2.1</div>
+        <div>
+          <p class="mod-title">Spec Before Code</p>
+          <p class="mod-meta">Lecture + Lab · 50 min</p>
+          <div class="mod-body"><p>Writing a spec the agent can be graded against — testable invariants, not vibes — and using it as the frame for a multi-file change.</p></div>
+          <p class="mod-check"><b>Artifact:</b> a spec + implementation for a feature with 3+ non-obvious edge cases.</p>
+          <button class="mod-done-toggle" data-toggle>Mark done</button>
+        </div>
+      </div>
+      <div class="module" data-mod="2.2">
+        <div class="mod-num">2.2</div>
+        <div>
+          <p class="mod-title">The Fit Dial</p>
+          <p class="mod-meta">Lecture · 35 min</p>
+          <div class="mod-body"><p>Model and tool selection as a real engineering decision: cost, latency, and failure-mode tradeoffs across a cheap/fast model, a strong reasoner, and a specialized tool call.</p></div>
+          <p class="mod-check"><b>Done when:</b> you can justify, in one sentence, why a task got the model it got.</p>
+          <button class="mod-done-toggle" data-toggle>Mark done</button>
+        </div>
+      </div>
+      <div class="module" data-mod="2.3">
+        <div class="mod-num">2.3</div>
+        <div>
+          <p class="mod-title">Closing the Loop</p>
+          <p class="mod-meta">Lab · 55 min</p>
+          <div class="mod-body"><p>Wiring the Check dial into the workflow itself: tests-first hand-off, an agent that runs its own lint/typecheck/test cycle, and a second agent that reviews the first's diff before you do.</p></div>
+          <p class="mod-check"><b>Artifact:</b> a task that completes with zero manual test-running on your part.</p>
+          <button class="mod-done-toggle" data-toggle>Mark done</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tier" style="--tier-color: var(--tier3)">
+      <div class="tier-head"><span class="tier-tag">Tier 3 · Autonomy</span><h3>Running the Fleet</h3></div>
+      <p class="tier-sub">Standards encoded as artifacts, agents running without a babysitter, and more than one agent at a time.</p>
+
+      <div class="module" data-mod="3.1">
+        <div class="mod-num">3.1</div>
+        <div>
+          <p class="mod-title">Encode, Don't Repeat</p>
+          <p class="mod-meta">Lab · 45 min</p>
+          <div class="mod-body"><p>Turning the corrections you've been making by hand since Tier 1 into a standing artifact — a house style doc, a reusable reviewer persona, a lint rule — so the agent stops making the same mistake.</p></div>
+          <p class="mod-check"><b>Artifact:</b> one encoded standard that measurably reduces your correction rate on the next 5 tasks.</p>
+          <button class="mod-done-toggle" data-toggle>Mark done</button>
+        </div>
+      </div>
+      <div class="module" data-mod="3.2">
+        <div class="mod-num">3.2</div>
+        <div>
+          <p class="mod-title">Working Without a Babysitter</p>
+          <p class="mod-meta">Lecture + Lab · 60 min</p>
+          <div class="mod-body"><p>Designing a task an agent can run unattended: checkpoints instead of continuous supervision, a rollback path, and a hard stop condition it can't talk itself past.</p></div>
+          <p class="mod-check"><b>Artifact:</b> an unattended run with a checkpoint log you review after the fact, not during.</p>
+          <button class="mod-done-toggle" data-toggle>Mark done</button>
+        </div>
+      </div>
+      <div class="module" data-mod="3.3">
+        <div class="mod-num">3.3</div>
+        <div>
+          <p class="mod-title">One Operator, Several Agents</p>
+          <p class="mod-meta">Lab · 60 min</p>
+          <div class="mod-body"><p>Splitting a task across specialist agents (a finder, an implementer, a reviewer) under one orchestrator, and reading a fan-out/fan-in result without reading every sub-agent's transcript.</p></div>
+          <p class="mod-check"><b>Artifact:</b> a 3+ agent pipeline on a task too broad for one agent to hold in context.</p>
+          <button class="mod-done-toggle" data-toggle>Mark done</button>
+        </div>
+      </div>
+      <div class="module" data-mod="3.4">
+        <div class="mod-num">3.4</div>
+        <div>
+          <p class="mod-title">Measuring the Operator, Not the Agent</p>
+          <p class="mod-meta">Lecture · 30 min</p>
+          <div class="mod-body"><p>The four numbers that tell you whether delegation is actually working, and why "lines of code shipped" isn't one of them.</p></div>
+          <p class="mod-check"><b>Done when:</b> you have a personal baseline for all four, from your own last two weeks of work.</p>
+          <button class="mod-done-toggle" data-toggle>Mark done</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="capstone">
+      <h3>The Standing Pipeline</h3>
+      <p>Take one <strong>recurring</strong> task from your actual job — not invented for class — and build a pipeline that runs it with minimal touch: spec template, model/tool selection, a self-check loop, an encoded standard, and a rollback path. Run it for two real cycles before presenting.</p>
+      <p style="margin-bottom:0">Reviewed against the rubric below by a peer who has never seen the pipeline before — if they can't tell what it did without asking you, it's not done.</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label">Assessment</p>
+    <h2>Capstone rubric</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Metric</th><th>Floor</th><th>Target</th></tr></thead>
+        <tbody>
+          <tr><td>Human touches per cycle</td><td class="num">≤ 5</td><td class="num">≤ 2</td></tr>
+          <tr><td>Defects reaching review</td><td class="num">&lt; 1 in 3 runs</td><td class="num">0</td></tr>
+          <tr><td>Time from trigger to reviewable output</td><td class="num">same day</td><td class="num">&lt; 1 hr</td></tr>
+          <tr><td>Rollback exercised at least once</td><td class="num">no</td><td class="num">yes, cleanly</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label">Sources</p>
+    <h2>Where the research brief came from</h2>
+    <div class="sources">
+      <ol>
+        <li><a href="https://agenticengineer.com/tactical-agentic-coding" target="_blank" rel="noopener">agenticengineer.com — Tactical Agentic Coding</a>, official course page (curriculum, pricing, audience).</li>
+        <li><a href="https://agenticengineer.com/principled-ai-coding" target="_blank" rel="noopener">agenticengineer.com — Principled AI Coding</a>, official course page ("The Big Three" framework, module list).</li>
+        <li><a href="https://www.youtube.com/@indydevdan/videos" target="_blank" rel="noopener">youtube.com/@indydevdan</a>, creator's public channel.</li>
+      </ol>
+    </div>
+  </section>
+
+  <footer>
+    <span>Agent Operations · Rev 01</span>
+    <span>Original curriculum, independently designed — not affiliated with or endorsed by IndyDevDan / Agentic Engineer.</span>
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    var MODS = Array.from(document.querySelectorAll('.module[data-mod]'));
+    var STORE_KEY = 'agent-ops-progress-v1';
+
+    function load() {
+      try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }
+      catch (e) { return {}; }
+    }
+    function save(state) {
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
+    }
+    function render() {
+      var state = load();
+      var done = 0;
+      MODS.forEach(function (mod) {
+        var id = mod.getAttribute('data-mod');
+        var isDone = !!state[id];
+        mod.classList.toggle('is-done', isDone);
+        var btn = mod.querySelector('[data-toggle]');
+        btn.textContent = isDone ? 'Done ✓' : 'Mark done';
+        if (isDone) done++;
+      });
+      document.getElementById('progress-label').textContent = done + ' / ' + MODS.length + ' modules';
+      document.getElementById('progress-fill').style.width = (done / MODS.length * 100) + '%';
+    }
+    MODS.forEach(function (mod) {
+      var btn = mod.querySelector('[data-toggle]');
+      btn.addEventListener('click', function () {
+        var id = mod.getAttribute('data-mod');
+        var state = load();
+        state[id] = !state[id];
+        save(state);
+        render();
+      });
+    });
+    render();
+
+    function updateOfflinePill() {
+      var pill = document.getElementById('offline-pill');
+      var offline = !navigator.onLine;
+      pill.textContent = offline ? 'offline (cached)' : 'online';
+      pill.classList.toggle('is-offline', offline);
+    }
+    window.addEventListener('online', updateOfflinePill);
+    window.addEventListener('offline', updateOfflinePill);
+    updateOfflinePill();
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function () {});
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>
