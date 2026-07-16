@@ -439,6 +439,182 @@
   @media (prefers-reduced-motion: no-preference) {
     .brief, .module, .dial { transition: background-color .2s ease; }
   }
+
+  /* ---------- Practice Lab ---------- */
+  .practice-banner {
+    border: 1px solid var(--rule-strong);
+    padding: 6px;
+    margin: 20px 0 8px;
+    background: var(--paper-raised);
+  }
+  .practice-banner img { display: block; width: 100%; height: auto; border-radius: 1px; }
+  .practice-caption {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin: 8px 0 0;
+    max-width: none;
+  }
+
+  .practice-card {
+    margin-top: 32px;
+    border: 1px solid var(--rule-strong);
+    background: var(--paper-raised);
+    padding: 22px 24px 24px;
+  }
+  .practice-card h3 {
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0 4px;
+    color: var(--accent);
+  }
+  .practice-card .practice-sub { font-size: 14px; color: var(--ink-soft); margin: 0 0 18px; max-width: 58ch; }
+  .practice-score {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    background: var(--paper);
+    border: 1px solid var(--rule-strong);
+    border-radius: 3px;
+    padding: 2px 9px;
+    display: inline-block;
+    margin-bottom: 14px;
+  }
+
+  .quiz-item { margin-bottom: 20px; }
+  .quiz-item:last-child { margin-bottom: 0; }
+  .quiz-prompt { font-size: 15px; margin: 0 0 10px; max-width: 60ch; }
+  .quiz-options { display: flex; flex-wrap: wrap; gap: 8px; }
+  .quiz-btn {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--rule-strong);
+    border-radius: 4px;
+    padding: 7px 12px;
+    cursor: pointer;
+  }
+  .quiz-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  .quiz-btn:disabled { cursor: default; opacity: 0.55; }
+  .quiz-btn.is-correct { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); opacity: 1; }
+  .quiz-btn.is-wrong { border-color: var(--tier3); color: var(--tier3); opacity: 1; text-decoration: line-through; }
+  .quiz-explain {
+    margin: 10px 0 0;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    border-left: 2px solid var(--accent);
+    padding-left: 10px;
+    max-width: 58ch;
+  }
+  @keyframes quiz-pop { 0% { transform: scale(1); } 40% { transform: scale(1.06); } 100% { transform: scale(1); } }
+  @media (prefers-reduced-motion: no-preference) {
+    .quiz-btn.is-correct, .quiz-btn.is-wrong { animation: quiz-pop .32s ease; }
+  }
+
+  .term-window {
+    background: #14181a;
+    color: #d7e0d4;
+    font-family: var(--mono);
+    font-size: 13px;
+    border-radius: 6px;
+    padding: 14px 16px;
+    overflow-x: auto;
+  }
+  .term-window .term-dots { display: flex; gap: 6px; margin-bottom: 10px; }
+  .term-window .term-dots span { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .term-window .term-dots span:nth-child(1) { background: #e0605080; }
+  .term-window .term-dots span:nth-child(2) { background: #e0a83c80; }
+  .term-window .term-dots span:nth-child(3) { background: #5cb87d80; }
+  .term-line { white-space: pre-wrap; word-break: break-word; margin: 0 0 4px; line-height: 1.5; }
+  .term-line.term-out { color: #93a58d; }
+  .term-line.term-note { color: #e08a3c; }
+  .term-prompt-row { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+  .term-prompt-row .term-caret { color: #e08a3c; }
+  .term-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #d7e0d4;
+    font-family: var(--mono);
+    font-size: 13px;
+    caret-color: #e08a3c;
+  }
+  @keyframes term-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+  .term-cursor {
+    display: inline-block;
+    width: 7px;
+    height: 14px;
+    background: #e08a3c;
+    vertical-align: text-bottom;
+    margin-left: 2px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .term-cursor { animation: term-blink 1s step-end infinite; }
+  }
+  .term-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .term-buttons button {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--rule-strong);
+    border-radius: 4px;
+    padding: 6px 11px;
+    cursor: pointer;
+  }
+  .term-buttons button:hover { border-color: var(--accent); color: var(--accent); }
+  .term-buttons button.is-active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .term-hint { font-size: 12.5px; color: var(--ink-soft); margin: 10px 0 0; max-width: 58ch; }
+
+  .spec-input {
+    width: 100%;
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--rule-strong);
+    border-radius: 4px;
+    padding: 12px 14px;
+    resize: vertical;
+    min-height: 74px;
+  }
+  .spec-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .spec-checklist { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 8px; }
+  .spec-checklist li {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--ink-soft);
+  }
+  .spec-checklist .spec-mark {
+    font-family: var(--mono);
+    width: 18px;
+    text-align: center;
+    color: var(--rule-strong);
+  }
+  .spec-checklist li.is-met { color: var(--ink); }
+  .spec-checklist li.is-met .spec-mark { color: var(--accent); }
+  @media (prefers-reduced-motion: no-preference) {
+    .spec-checklist .spec-mark { transition: color .15s ease; }
+  }
+  .spec-examples { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .spec-examples button {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-soft);
+    background: var(--paper);
+    border: 1px dashed var(--rule-strong);
+    border-radius: 4px;
+    padding: 6px 11px;
+    cursor: pointer;
+  }
+  .spec-examples button:hover { border-color: var(--accent); color: var(--accent); border-style: solid; }
 </style>
 </head>
 <body>
@@ -457,9 +633,9 @@
       <h1>Agent Operations</h1>
       <p class="dek">A four-tier curriculum for engineers moving from writing code to directing it — built by studying how the field's best-known tactical course teaches the shift, then designing an original one.</p>
       <dl class="docblock">
-        <div><dt>Rev</dt><dd>03</dd></div>
+        <div><dt>Rev</dt><dd>04</dd></div>
         <div><dt>Date</dt><dd>2026-07-16</dd></div>
-        <div><dt>Status</dt><dd>Fact-checked</dd></div>
+        <div><dt>Status</dt><dd>Interactive</dd></div>
         <div><dt>Tiers</dt><dd>4 + capstone</dd></div>
       </dl>
     </div>
@@ -777,6 +953,70 @@ The trap: "just prompt better" plateaus fast, because a better sentence can't fi
   </section>
 
   <section>
+    <p class="section-label">Practice Lab</p>
+    <h2>Try it, don't just read it</h2>
+    <p class="lede">Four of the lessons above get a hands-on version below — same examples, now interactive. The terminal is simulated (it matches the real script's logic exactly; it isn't executing your input), the quizzes are graded instantly, and the invariant checker is a plain heuristic checklist, not a hidden AI grader.</p>
+
+    <div class="practice-banner">
+      <img src="practice-banner.png" alt="Stylized engineering-drawing illustration of a terminal window" width="1584" height="672" loading="lazy">
+    </div>
+    <p class="practice-caption">Illustration: AI-generated (Higgsfield), decorative only.</p>
+
+    <div class="practice-card">
+      <h3>0.1 — Diagnose the dial</h3>
+      <p class="practice-sub">Which of the Four Dials — Feed, Frame, Fit, Check — is actually broken in each scenario?</p>
+      <p class="practice-score" id="dials-score">0 / 4 correct</p>
+      <div id="dials-quiz"></div>
+    </div>
+
+    <div class="practice-card">
+      <h3>1.1 — Simulated terminal: the lock check</h3>
+      <p class="practice-sub">The real script from the Module 1.1 worked example, wired up so you can flip the backup lock and re-run the check yourself.</p>
+      <div class="term-window" id="term-window">
+        <div class="term-dots"><span></span><span></span><span></span></div>
+        <p class="term-line">$ cat clamav-home-scan | grep -A5 BACKUP_LOCK</p>
+        <p class="term-line term-out">BACKUP_LOCK="/tmp/vps-backup.lock"</p>
+        <p class="term-line term-out">if [ -e "$BACKUP_LOCK" ] &amp;&amp; ! flock -n -x "$BACKUP_LOCK" true; then</p>
+        <p class="term-line term-out">  backup_note="VPS backup lock: HELD (backup relay in progress at scan start)"</p>
+        <p class="term-line term-out">else backup_note="VPS backup lock: free"; fi</p>
+        <div id="term-log"></div>
+        <div class="term-prompt-row">
+          <span class="term-caret">$</span>
+          <input class="term-input" id="term-input" type="text" placeholder="type: flock -n -x /tmp/vps-backup.lock true" autocomplete="off" spellcheck="false">
+          <span class="term-cursor"></span>
+        </div>
+      </div>
+      <div class="term-buttons">
+        <button type="button" id="term-hold" data-state="held">Simulate: hold the lock (backup running)</button>
+        <button type="button" id="term-free" data-state="free">Simulate: release the lock (backup done)</button>
+      </div>
+      <p class="term-hint">Set the lock state above, then run the check (type any command containing <code>flock</code>, or just press Enter on the placeholder) and watch <code>$backup_note</code> change.</p>
+    </div>
+
+    <div class="practice-card">
+      <h3>1.3 — Spot the failure mode</h3>
+      <p class="practice-sub">Same five failure modes from the lesson. Read the diff summary, name the failure.</p>
+      <p class="practice-score" id="failure-score">0 / 5 correct</p>
+      <div id="failure-quiz"></div>
+    </div>
+
+    <div class="practice-card">
+      <h3>2.1 — Write a testable invariant</h3>
+      <p class="practice-sub">Type an invariant below. The checklist updates live — it's a plain keyword heuristic, not a real grader, so use your judgment alongside it.</p>
+      <textarea class="spec-input" id="spec-input" placeholder="e.g. Returns a 422 with a field-level message when the payload is missing a required key" rows="3"></textarea>
+      <ul class="spec-checklist" id="spec-checklist">
+        <li data-check="trigger"><span class="spec-mark">○</span> Names a concrete trigger ("when…", "if…", "given…")</li>
+        <li data-check="outcome"><span class="spec-mark">○</span> Names a measurable outcome (a status, a value, a number)</li>
+        <li data-check="vague"><span class="spec-mark">○</span> Avoids vague words ("properly", "gracefully", "better"…)</li>
+      </ul>
+      <div class="spec-examples">
+        <button type="button" data-fill="Handles errors gracefully.">Load the vague example</button>
+        <button type="button" data-fill="Returns a 422 with a field-level message when the payload is missing a required key.">Load the testable example</button>
+      </div>
+    </div>
+  </section>
+
+  <section>
     <p class="section-label">Assessment</p>
     <h2>Capstone rubric</h2>
     <div class="table-wrap">
@@ -858,6 +1098,203 @@ The trap: "just prompt better" plateaus fast, because a better sentence can't fi
     window.addEventListener('online', updateOfflinePill);
     window.addEventListener('offline', updateOfflinePill);
     updateOfflinePill();
+
+    // ---------- Practice Lab: quiz builder (shared by 0.1 and 1.3) ----------
+    function buildQuiz(mountId, scoreId, items) {
+      var mount = document.getElementById(mountId);
+      var scoreEl = document.getElementById(scoreId);
+      if (!mount) return;
+      var correctCount = 0;
+
+      items.forEach(function (item, i) {
+        var wrap = document.createElement('div');
+        wrap.className = 'quiz-item';
+
+        var p = document.createElement('p');
+        p.className = 'quiz-prompt';
+        p.textContent = item.text;
+        wrap.appendChild(p);
+
+        var opts = document.createElement('div');
+        opts.className = 'quiz-options';
+
+        var explain = document.createElement('p');
+        explain.className = 'quiz-explain';
+        explain.style.display = 'none';
+        explain.textContent = item.why || '';
+
+        item.options.forEach(function (label) {
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'quiz-btn';
+          btn.textContent = label;
+          btn.addEventListener('click', function () {
+            var buttons = opts.querySelectorAll('button');
+            buttons.forEach(function (b) { b.disabled = true; });
+            if (label === item.answer) {
+              btn.classList.add('is-correct');
+              correctCount++;
+            } else {
+              btn.classList.add('is-wrong');
+              buttons.forEach(function (b) {
+                if (b.textContent === item.answer) b.classList.add('is-correct');
+              });
+            }
+            explain.style.display = 'block';
+            if (scoreEl) scoreEl.textContent = correctCount + ' / ' + items.length + ' correct';
+          });
+          opts.appendChild(btn);
+        });
+
+        wrap.appendChild(opts);
+        wrap.appendChild(explain);
+        mount.appendChild(wrap);
+      });
+    }
+
+    var DIAL_OPTIONS = ['Feed', 'Frame', 'Fit', 'Check'];
+    buildQuiz('dials-quiz', 'dials-score', [
+      {
+        text: 'The agent invents a plausible-sounding API endpoint that doesn’t exist anywhere in your codebase.',
+        options: DIAL_OPTIONS,
+        answer: 'Feed',
+        why: 'It never saw the real API surface — starved of the right file, so it filled the gap with something plausible.'
+      },
+      {
+        text: 'The agent finishes the ticket, then reformats twelve unrelated files "while it was in there."',
+        options: DIAL_OPTIONS,
+        answer: 'Frame',
+        why: 'Scope was never bounded — no explicit "must not touch" line in the frame.'
+      },
+      {
+        text: 'A cheap, fast model burns three retries reasoning through a pricing calculation it should have handed to a calculator.',
+        options: DIAL_OPTIONS,
+        answer: 'Fit',
+        why: 'Wrong tool for a deterministic computation — a tool call would have gotten this right on the first try.'
+      },
+      {
+        text: 'The diff passes review, ships, and breaks prod because nobody ran the test suite before merging.',
+        options: DIAL_OPTIONS,
+        answer: 'Check',
+        why: 'No verification was wired into the handoff — the checking depended on a human remembering to do it.'
+      }
+    ]);
+
+    var FAILURE_OPTIONS = ['Confident wrong answer', 'Scope creep', 'Invisible assumption', 'Stale context', 'Over-eager cleanup'];
+    buildQuiz('failure-quiz', 'failure-score', [
+      {
+        text: 'Diff touches 340 lines to fix a 12-line off-by-one bug, including renamed variables across 8 files.',
+        options: FAILURE_OPTIONS,
+        answer: 'Over-eager cleanup',
+        why: 'The diff-stat-before-diff tell: a 12-line fix does not need a 340-line diff.'
+      },
+      {
+        text: 'The PR description says "handles the empty-cart edge case"; the diff never actually changes the checkout function.',
+        options: FAILURE_OPTIONS,
+        answer: 'Confident wrong answer',
+        why: 'States something false (that it’s handled) with the same confident tone as something true.'
+      },
+      {
+        text: 'The function assumes every timestamp is UTC; nothing in the ticket or the code says so.',
+        options: FAILURE_OPTIONS,
+        answer: 'Invisible assumption',
+        why: 'A default was picked silently — grep the diff for the literal that isn’t in the spec.'
+      },
+      {
+        text: 'The agent calls a helper the old way; the helper’s signature changed two commits ago.',
+        options: FAILURE_OPTIONS,
+        answer: 'Stale context',
+        why: 'It reasoned from a version of the code that no longer exists.'
+      },
+      {
+        text: 'Ticket: "fix login form validation." Diff: fixes login validation, refactors signup, and updates password-reset too.',
+        options: FAILURE_OPTIONS,
+        answer: 'Scope creep',
+        why: 'Solves the ticket plus adjacent work nobody asked for — check the file list against the frame.'
+      }
+    ]);
+
+    // ---------- Practice Lab: simulated terminal (1.1) ----------
+    (function () {
+      var log = document.getElementById('term-log');
+      var input = document.getElementById('term-input');
+      var holdBtn = document.getElementById('term-hold');
+      var freeBtn = document.getElementById('term-free');
+      if (!log || !input) return;
+
+      var lockHeld = false;
+
+      function addLine(text, cls) {
+        var p = document.createElement('p');
+        p.className = 'term-line' + (cls ? ' ' + cls : '');
+        p.textContent = text;
+        log.appendChild(p);
+        log.scrollTop = log.scrollHeight;
+      }
+
+      function setState(held) {
+        lockHeld = held;
+        holdBtn.classList.toggle('is-active', held);
+        freeBtn.classList.toggle('is-active', !held);
+        addLine('# lock state set to: ' + (held ? 'HELD' : 'free'), 'term-note');
+      }
+
+      holdBtn.addEventListener('click', function () { setState(true); });
+      freeBtn.addEventListener('click', function () { setState(false); });
+      setState(false);
+
+      input.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter') return;
+        var cmd = input.value.trim();
+        addLine('$ ' + (cmd || 'flock -n -x /tmp/vps-backup.lock true'));
+        input.value = '';
+        if (/flock/i.test(cmd) || cmd === '') {
+          var note = lockHeld
+            ? 'VPS backup lock: HELD (backup relay in progress at scan start)'
+            : 'VPS backup lock: free';
+          addLine('backup_note="' + note + '"', 'term-out');
+        } else {
+          addLine('(simulated shell — try a command containing "flock", or use the buttons below)', 'term-note');
+        }
+      });
+    })();
+
+    // ---------- Practice Lab: spec invariant checker (2.1) ----------
+    (function () {
+      var textarea = document.getElementById('spec-input');
+      var checklist = document.getElementById('spec-checklist');
+      if (!textarea || !checklist) return;
+
+      var VAGUE = /\b(properly|gracefully|nicely|appropriately|correctly|better|good|robustly?|cleanly|well)\b/i;
+      var TRIGGER = /\b(when|if|given|on|after|before)\b/i;
+      var OUTCOME = /\b(returns?|must|shall|throws?|status|error|exactly|within|at least|no more than)\b|\b\d{2,3}\b/i;
+
+      function update() {
+        var text = textarea.value;
+        var checks = {
+          trigger: TRIGGER.test(text),
+          outcome: OUTCOME.test(text),
+          vague: text.length > 0 && !VAGUE.test(text)
+        };
+        Object.keys(checks).forEach(function (key) {
+          var li = checklist.querySelector('[data-check="' + key + '"]');
+          if (!li) return;
+          var met = checks[key];
+          li.classList.toggle('is-met', met);
+          li.querySelector('.spec-mark').textContent = met ? '✓' : '○';
+        });
+      }
+      textarea.addEventListener('input', update);
+      update();
+
+      document.querySelectorAll('.spec-examples [data-fill]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          textarea.value = btn.getAttribute('data-fill');
+          update();
+          textarea.focus();
+        });
+      });
+    })();
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () {

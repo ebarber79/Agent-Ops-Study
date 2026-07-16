@@ -1,4 +1,4 @@
-const CACHE = 'agent-ops-v3';
+const CACHE = 'agent-ops-v4';
 const PRECACHE = [
   './',
   './index.html',
@@ -6,6 +6,7 @@ const PRECACHE = [
   './icon-192.png',
   './icon-512.png',
   './icon-maskable-512.png',
+  './practice-banner.png',
 ];
 
 self.addEventListener('install', (event) => {
