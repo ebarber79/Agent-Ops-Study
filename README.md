@@ -21,3 +21,9 @@ python3 -m http.server 8000
 ```
 
 Progress ("mark done" per module) is stored in `localStorage`, per-device.
+
+## Tech stack
+
+- Vanilla JavaScript Progressive Web App (PWA) with no build step
+- Offline‑first service worker (`sw.js`) for caching
+- Web app manifest (`manifest.json`) for installability
